@@ -1,0 +1,21 @@
+{
+  "name": "real-estate-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.ts",
+  "scripts": {
+    "start": "tsx ./app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.41.1",
+    "@types/node": "^20.11.5",
+    "@types/tiny-json-http": "^7.3.4",
+    "tsx": "^4.7.0"
+  },
+  "dependencies": {
+    "tiny-json-http": "^7.5.1"
+  }
+}
