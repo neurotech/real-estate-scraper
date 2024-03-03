@@ -59,6 +59,18 @@ const queries: Query[] = [
     suburb: "Cremorne",
     streetName: "Benelong",
   },
+  {
+    type: "Sale",
+    url: "https://www.domain.com.au/sale/7-poate-place-davidson-nsw-2085/?ssubs=0&sort=dateupdated-desc",
+    suburb: "Davidson",
+    streetName: "Poate",
+  },
+  {
+    type: "Rental",
+    url: "https://www.domain.com.au/rent/7-poate-place-davidson-nsw-2085/?ssubs=0&sort=dateupdated-desc",
+    suburb: "Davidson",
+    streetName: "Poate",
+  },
 ];
 
 if (!fs.existsSync("listings.json")) {
