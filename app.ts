@@ -3,6 +3,8 @@ import fs from "fs";
 import { generateDiscordMessage } from "./discord";
 import tiny from "tiny-json-http";
 
+const LISTINGS_JSON_PATH = "./listings.json";
+
 interface Query {
   type: "Sale" | "Rental";
   url: string;
@@ -73,15 +75,15 @@ const queries: Query[] = [
   },
 ];
 
-if (!fs.existsSync("listings.json")) {
-  fs.writeFileSync("listings.json", JSON.stringify([]));
+if (!fs.existsSync(LISTINGS_JSON_PATH)) {
+  fs.writeFileSync(LISTINGS_JSON_PATH, JSON.stringify([]));
 }
 
 const discordWebhookUrl = process.env.REAL_ESTATE_WATCHER_DISCORD_WEBHOOK_URL;
 
 const performQuery = async (query: Query) => {
   console.log(
-    `\n[🔎] Looking for ${query.type} listings in ${query.suburb} for street names that contain "${query.streetName}"...`
+    `[🔎] Looking for ${query.type} listings in ${query.suburb} for street names that contain "${query.streetName}"...`
   );
   const browser = await firefox.launch({ headless: true });
   const context = await browser.newContext({
@@ -101,17 +103,17 @@ const performQuery = async (query: Query) => {
 
   if (results.length) {
     for (const result of results) {
+      const existingListings: string[] = JSON.parse(
+        fs.readFileSync(LISTINGS_JSON_PATH, "utf8")
+      );
       const address = await result.textContent();
       const resultUrl = await result.getAttribute("href");
 
       const id = resultUrl?.replace(/\/+$/, "");
-      const existingListings: string[] = JSON.parse(
-        fs.readFileSync("listings.json", "utf8")
-      );
 
       if (id && !existingListings.includes(id)) {
         fs.writeFileSync(
-          "listings.json",
+          LISTINGS_JSON_PATH,
           JSON.stringify([...existingListings, id], null, "  ")
         );
 
