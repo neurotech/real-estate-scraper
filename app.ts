@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { firefox } from "playwright";
 import fs from "fs";
 import { generateDiscordMessage } from "./discord";
@@ -6,6 +6,8 @@ import tiny from "tiny-json-http";
 import { logger } from "./logger";
 import clc from "cli-color";
 import path from "path";
+
+dotenv.config({ path: path.join(__dirname, "./.env") });
 
 const LISTINGS_JSON_PATH = path.join(__dirname, "./listings.json");
 
@@ -149,8 +151,6 @@ const performQuery = async (query: Query) => {
 };
 
 const performQueries = async () => {
-  logger.log(`Path to listings.json: ${LISTINGS_JSON_PATH}`);
-
   if (!discordWebhookUrl || discordWebhookUrl === "") {
     return logger.error("Error: Discord Webhook URL is missing!");
   } else {
